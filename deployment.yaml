@@ -1,0 +1,214 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: api-gateway-deployment
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: api-gateway
+  template:
+    metadata:
+      labels:
+        app: api-gateway
+    spec:
+      containers:
+      - name: api-gateway
+        image: jgomezb111/bikes:api-gateway
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 3000
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: users-deployment
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: users
+  template:
+    metadata:
+      labels:
+        app: users
+    spec:
+      containers:
+      - name: users
+        image: jgomezb111/bikes:users
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 5671
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: bikes-deployment
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: bikes
+  template:
+    metadata:
+      labels:
+        app: bikes
+    spec:
+      containers:
+      - name: bikes
+        image: jgomezb111/bikes:bikes
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 5671
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: rental-deployment
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: rental
+  template:
+    metadata:
+      labels:
+        app: rental
+    spec:
+      containers:
+      - name: rental
+        image: jgomezb111/bikes:rental
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 5671
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: events-deployment
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: events
+  template:
+    metadata:
+      labels:
+        app: events
+    spec:
+      containers:
+      - name: events
+        image: jgomezb111/bikes:events
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 5671
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cordinates-deployment
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: cordinates
+  template:
+    metadata:
+      labels:
+        app: cordinates
+    spec:
+      containers:
+      - name: cordinates
+        image: jgomezb111/bikes:cordinates
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 5671
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: api-gateway-service
+spec:
+  selector:
+    app: api-gateway
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 3000
+  type: LoadBalancer
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: user-microservice-service
+spec:
+  selector:
+    app: user-microservice
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 5671
+  type: LoadBalancer
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: bike-microservice-service
+spec:
+  selector:
+    app: bike-microservice
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 5671
+  type: LoadBalancer
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: rental-microservice-service
+spec:
+  selector:
+    app: rental-microservice
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 5671
+  type: LoadBalancer
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: events-microservice-service
+spec:
+  selector:
+    app: events-microservice
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 5671
+  type: LoadBalancer
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: cordinates-microservice-service
+spec:
+  selector:
+    app: cordinates-microservice
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 5671
+  type: LoadBalancer

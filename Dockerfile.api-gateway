@@ -1,0 +1,15 @@
+FROM node:16
+
+WORKDIR .
+
+COPY package*.json ./
+COPY tsconfig*.json ./
+COPY .eslintrc.js ./
+COPY .env ./
+
+RUN npm install
+COPY apps/api-gateway ./
+
+EXPOSE 3000
+
+CMD ["npm", "run", "start:dev"]
